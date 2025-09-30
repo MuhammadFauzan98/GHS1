@@ -1,0 +1,471 @@
+{% extends "base.html" %}
+
+{% block title %}Upload PYQP - Faculty Portal{% endblock %}
+
+{% block content %}
+<section class="faculty-upload-page">
+    <div class="container">
+        <div class="upload-header">
+            <h2 class="section-title">Upload Previous Year Question Papers</h2>
+            <div class="breadcrumb">
+                <a href="{{ url_for('faculty_dashboard') }}">Dashboard</a> > 
+                <span>Upload PYQP</span>
+            </div>
+        </div>
+
+        <div class="upload-stats">
+            <div class="stat-card">
+                <i class="fas fa-file-pdf"></i>
+                <div class="stat-info">
+                    <h3>{{ current_user.pyqps|length }}</h3>
+                    <p>Your PYQP</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <div class="stat-info">
+                    <h3>{{ total_pyqp }}</h3>
+                    <p>Total PYQP</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-container">
+            <div class="upload-form-card">
+                <h3><i class="fas fa-cloud-upload-alt"></i> Upload New Question Paper</h3>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                    <span class="close-alert">&times;</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" enctype="multipart/form-data" class="upload-form" id="pyqpUploadForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select Subject</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Science">Science</option>
+                                <option value="Social Studies">Social Studies</option>
+                                <option value="English">English</option>
+                                <option value="Telugu">Telugu</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="year">Year *</label>
+                            <select id="year" name="year" required>
+                                <option value="">Select Year</option>
+                                {% for year in range(current_year, 2009, -1) %}
+                                    <option value="{{ year }}">{{ year }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="custom_subject" id="customSubjectLabel" style="display: none;">Custom Subject Name *</label>
+                        <input type="text" id="custom_subject" name="custom_subject" placeholder="Enter subject name" style="display: none;">
+                    </div>
+
+                    <div class="form-group file-upload-group">
+                        <label for="pdf">Select PDF File *</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <i class="fas fa-file-pdf"></i>
+                            <p>Drag & drop your PDF file here or click to browse</p>
+                            <span class="file-info">Maximum file size: 16MB</span>
+                            <input type="file" id="pdf" name="pdf" accept=".pdf" required>
+                        </div>
+                        <div class="file-preview" id="filePreview" style="display: none;">
+                            <i class="fas fa-file-pdf"></i>
+                            <div class="file-details">
+                                <span class="file-name" id="fileName">filename.pdf</span>
+                                <span class="file-size" id="fileSize">0 MB</span>
+                            </div>
+                            <button type="button" class="btn-remove-file" id="removeFile">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description (Optional)</label>
+                        <textarea id="description" name="description" placeholder="Add any additional information about this question paper..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-upload">
+                            <i class="fas fa-upload"></i> Upload Question Paper
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                            <i class="fas fa-redo"></i> Clear Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="upload-guidelines">
+                <h4><i class="fas fa-info-circle"></i> Upload Guidelines</h4>
+                <div class="guideline-list">
+                    <div class="guideline-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h5>File Format</h5>
+                            <p>Only PDF files are accepted. Ensure the file is not corrupted.</p>
+                        </div>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h5>File Size</h5>
+                            <p>Maximum 16MB per PDF. Optimize scans to reduce file size.</p>
+                        </div>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h5>Content Quality</h5>
+                            <p>Ensure the PDF is readable with clear text and images.</p>
+                        </div>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h5>Naming Convention</h5>
+                            <p>Use descriptive file names for easy identification.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-tips">
+                    <h5><i class="fas fa-lightbulb"></i> Quick Tips</h5>
+                    <p>For better organization, name your files using this format:</p>
+                    <code>Subject_Year.pdf</code>
+                    <p>Example: <code>Mathematics_2023.pdf</code></p>
+                </div>
+
+                <div class="supported-subjects">
+                    <h5><i class="fas fa-book"></i> Supported Subjects</h5>
+                    <div class="subject-tags">
+                        <span class="subject-tag">Mathematics</span>
+                        <span class="subject-tag">Science</span>
+                        <span class="subject-tag">Social Studies</span>
+                        <span class="subject-tag">English</span>
+                        <span class="subject-tag">Telugu</span>
+                        <span class="subject-tag">Hindi</span>
+                        <span class="subject-tag">Physics</span>
+                        <span class="subject-tag">Chemistry</span>
+                        <span class="subject-tag">Biology</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Uploads Section -->
+        <div class="recent-uploads">
+            <h3><i class="fas fa-history"></i> Your Recent PYQP Uploads</h3>
+            {% if recent_pyqps %}
+            <div class="pyqp-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Year</th>
+                            <th>File Name</th>
+                            <th>Upload Date</th>
+                            <th>File Size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pyqp in recent_pyqps %}
+                        <tr>
+                            <td>{{ pyqp.subject }}</td>
+                            <td>{{ pyqp.year }}</td>
+                            <td class="file-name">{{ pyqp.filename }}</td>
+                            <td>{{ pyqp.uploaded_at.strftime('%d %b %Y') }}</td>
+                            <td>
+                                {% if pyqp.file_size %}
+                                    {{ (pyqp.file_size / 1024 / 1024)|round(2) }} MB
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="no-uploads">
+                <i class="fas fa-file-pdf"></i>
+                <p>You haven't uploaded any question papers yet.</p>
+                <p>Start by uploading your first PYQP using the form above.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // File upload area functionality
+    const fileUploadArea = document.getElementById('fileUploadArea');
+    const fileInput = document.getElementById('pdf');
+    const filePreview = document.getElementById('filePreview');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const removeFileBtn = document.getElementById('removeFile');
+    const uploadForm = document.getElementById('pyqpUploadForm');
+    const submitBtn = uploadForm.querySelector('.btn-upload');
+    
+    // Drag and drop functionality
+    fileUploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        fileUploadArea.classList.add('dragover');
+    });
+    
+    fileUploadArea.addEventListener('dragleave', function() {
+        fileUploadArea.classList.remove('dragover');
+    });
+    
+    fileUploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        fileUploadArea.classList.remove('dragover');
+        
+        if (e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            handleFileSelect();
+        }
+    });
+    
+    fileUploadArea.addEventListener('click', function() {
+        fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', handleFileSelect);
+    
+    function handleFileSelect() {
+        if (fileInput.files.length) {
+            const file = fileInput.files[0];
+            
+            // Validate file type
+            if (file.type !== 'application/pdf') {
+                alert('Please select a PDF file.');
+                fileInput.value = '';
+                return;
+            }
+            
+            // Validate file size (16MB)
+            if (file.size > 16 * 1024 * 1024) {
+                alert('File size exceeds 16MB limit. Please choose a smaller file.');
+                fileInput.value = '';
+                return;
+            }
+            
+            // Display file info
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            
+            fileUploadArea.style.display = 'none';
+            filePreview.style.display = 'flex';
+        }
+    }
+    
+    removeFileBtn.addEventListener('click', function() {
+        fileInput.value = '';
+        filePreview.style.display = 'none';
+        fileUploadArea.style.display = 'block';
+    });
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    // Custom subject field
+    const subjectSelect = document.getElementById('subject');
+    const customSubjectLabel = document.getElementById('customSubjectLabel');
+    const customSubjectInput = document.getElementById('custom_subject');
+    
+    subjectSelect.addEventListener('change', function() {
+        if (this.value === 'Other') {
+            customSubjectLabel.style.display = 'block';
+            customSubjectInput.style.display = 'block';
+            customSubjectInput.required = true;
+        } else {
+            customSubjectLabel.style.display = 'none';
+            customSubjectInput.style.display = 'none';
+            customSubjectInput.required = false;
+        }
+    });
+    
+    // Form submission - FIXED: Don't prevent default, just show loading state
+    uploadForm.addEventListener('submit', function(e) {
+        // Only show loading if form is valid
+        if (this.checkValidity()) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+        }
+        // Let the form submit normally - don't prevent default
+    });
+    
+    // Close alert messages
+    document.querySelectorAll('.close-alert').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.style.display = 'none';
+        });
+    });
+});
+
+function clearForm() {
+    document.getElementById('pyqpUploadForm').reset();
+    document.getElementById('fileUploadArea').style.display = 'block';
+    document.getElementById('filePreview').style.display = 'none';
+    document.getElementById('customSubjectLabel').style.display = 'none';
+    document.getElementById('custom_subject').style.display = 'none';
+    
+    // Re-enable submit button
+    const submitBtn = document.querySelector('.btn-upload');
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<i class="fas fa-upload"></i> Upload Question Paper';
+}
+</script>
+
+<style>
+/* Additional styles for PYQP upload page */
+.file-preview {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+}
+
+.file-preview i {
+    font-size: 2rem;
+    color: #dc3545;
+}
+
+.file-details {
+    flex: 1;
+}
+
+.file-name {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.file-size {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.btn-remove-file {
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.btn-remove-file:hover {
+    background: #e9ecef;
+    color: #dc3545;
+}
+
+.subject-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.subject-tag {
+    background: var(--light-blue);
+    color: var(--primary-blue);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.pyqp-table {
+    overflow-x: auto;
+}
+
+.pyqp-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pyqp-table th {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--dark-blue);
+    border-bottom: 2px solid #dee2e6;
+}
+
+.pyqp-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.pyqp-table .file-name {
+    font-family: monospace;
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.no-uploads {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.no-uploads i {
+    font-size: 4rem;
+    color: #dee2e6;
+    margin-bottom: 20px;
+}
+
+.no-uploads p {
+    margin: 0 0 10px;
+}
+
+@media (max-width: 768px) {
+    .pyqp-table {
+        font-size: 0.9rem;
+    }
+    
+    .pyqp-table th, .pyqp-table td {
+        padding: 8px 5px;
+    }
+}
+</style>
+{% endblock %}

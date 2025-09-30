@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - Global High School{% endblock %}
+
+{% block content %}
+<section class="contact-page">
+    <div class="container">
+        <h2 class="section-title">Contact Us</h2>
+        <p class="section-subtitle">Get in touch with us for admissions, inquiries, or any other information</p>
+        
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Address</h4>
+                        <p>Global High School<br>Bus Stand Downall, Bhuktapur<br>Adilabad, Telangana - 504001</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Phone</h4>
+                        <p>+91 98765 43210 (Principal)<br>+91 98765 43211 (Office)</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>info@globalhighschool.edu.in<br>principal@globalhighschool.edu.in</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>Office Hours</h4>
+                        <p>Monday - Friday: 8:00 AM - 4:00 PM<br>Saturday: 8:00 AM - 1:00 PM<br>Sunday: Closed</p>
+                    </div>
+                </div>
+                
+                <div class="map-container">
+                    <h4>Location Map</h4>
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <p>Global High School, Bhuktapur, Adilabad</p>
+                        <small>Map integration can be added here with Google Maps API</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form-container">
+                <h3>Send us a Message</h3>
+                <form method="POST" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="Admission Inquiry">Admission Inquiry</option>
+                            <option value="Academic Information">Academic Information</option>
+                            <option value="Fee Structure">Fee Structure</option>
+                            <option value="Faculty Recruitment">Faculty Recruitment</option>
+                            <option value="General Inquiry">General Inquiry</option>
+                            <option value="Feedback">Feedback</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message *</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Please provide details about your inquiry..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="faq-section">
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>What is the admission process?</h4>
+                    <p>Admissions are open from April to June each year. Please visit our school office with required documents for registration.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>What are the school timings?</h4>
+                    <p>School hours are from 9:00 AM to 4:00 PM from Monday to Friday, and 9:00 AM to 1:00 PM on Saturdays.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Do you provide transportation?</h4>
+                    <p>Yes, we have a fleet of buses covering all major areas of Adilabad and surrounding regions.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>What extracurricular activities are available?</h4>
+                    <p>We offer sports, music, art, debate, science club, and various other activities for holistic development.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.contact-page {
+    padding: 80px 0;
+    background-color: var(--light-gray);
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-bottom: 60px;
+}
+
+.contact-info {
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.contact-info h3 {
+    color: var(--dark-blue);
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--light-blue);
+}
+
+.contact-item {
+    display: flex;
+    margin-bottom: 30px;
+    align-items: flex-start;
+}
+
+.contact-item i {
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    margin-right: 20px;
+    margin-top: 5px;
+    width: 30px;
+    text-align: center;
+}
+
+.contact-item h4 {
+    color: var(--dark-blue);
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+}
+
+.contact-item p {
+    color: var(--dark-gray);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.map-container {
+    margin-top: 40px;
+}
+
+.map-container h4 {
+    color: var(--dark-blue);
+    margin-bottom: 15px;
+}
+
+.map-placeholder {
+    background: var(--light-gray);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 2px dashed var(--medium-gray);
+}
+
+.map-placeholder i {
+    font-size: 3rem;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    display: block;
+}
+
+.map-placeholder p {
+    font-size: 1.2rem;
+    color: var(--dark-blue);
+    margin-bottom: 10px;
+}
+
+.map-placeholder small {
+    color: var(--dark-gray);
+}
+
+.contact-form-container {
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.contact-form-container h3 {
+    color: var(--dark-blue);
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--light-blue);
+}
+
+.contact-form .form-group {
+    margin-bottom: 25px;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.contact-form input, .contact-form textarea, .contact-form select {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.1rem;
+}
+
+.faq-section {
+    background: var(--white);
+    padding: 50px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.faq-section h3 {
+    color: var(--dark-blue);
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2rem;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.faq-item {
+    padding: 25px;
+    background: var(--light-gray);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--primary-blue);
+    transition: var(--transition);
+}
+
+.faq-item:hover {
+    background: var(--light-blue);
+    transform: translateY(-3px);
+}
+
+.faq-item h4 {
+    color: var(--dark-blue);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.faq-item p {
+    color: var(--dark-gray);
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-info, .contact-form-container {
+        padding: 25px;
+    }
+    
+    .faq-section {
+        padding: 30px;
+    }
+}
+</style>
+{% endblock %}

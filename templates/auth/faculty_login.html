@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+
+{% block title %}
+Faculty Login - Global High School
+{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <!-- Login Card -->
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="logo-text">
+                            <h2>Global High School</h2>
+                            <p>Faculty Portal</p>
+                        </div>
+                    </div>
+                    <h3>Faculty Login</h3>
+                    <p>Access the faculty upload portal</p>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                    <span class="close-alert">&times;</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Login Form -->
+                <form method="POST" class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="username" name="username" required placeholder="Enter your username">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" required placeholder="Enter your password">
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="remember">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-auth">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>For assistance, please contact the school administration</p>
+                    <p><small>Test credentials: admin/admin123, principal/principal123, maths/maths123</small></p>
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="auth-info">
+                <h3>Faculty Portal Access</h3>
+                <p>This portal is exclusively for Global High School faculty members to upload:</p>
+                <ul>
+                    <li><i class="fas fa-file-pdf"></i> Previous Year Question Papers</li>
+                    <li><i class="fas fa-book"></i> Study Materials</li>
+                </ul>
+                <div class="security-notice">
+                    <i class="fas fa-shield-alt"></i>
+                    <p>Your login credentials are secure and managed by school administration.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript for form handling -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    const submitBtn = loginForm.querySelector('.btn-auth');
+    
+    loginForm.addEventListener('submit', function(e) {
+        // Only show processing if form is valid
+        if (this.checkValidity()) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        }
+        // Let the form submit normally - don't prevent default
+    });
+    
+    // Close alert messages
+    document.querySelectorAll('.close-alert').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.style.display = 'none';
+        });
+    });
+});
+</script>
+
+<!-- Styles -->
+<style>
+.auth-section {
+    padding: 80px 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+}
+
+.auth-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.auth-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.auth-header .logo-icon {
+    background: var(--primary-blue);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.auth-header .logo-text h2 {
+    margin: 0;
+    color: var(--dark-blue);
+    font-size: 1.5rem;
+}
+
+.auth-header .logo-text p {
+    margin: 0;
+    color: var(--dark-gray);
+    font-size: 0.9rem;
+}
+
+.auth-header h3 {
+    color: var(--dark-blue);
+    margin-bottom: 10px;
+}
+
+.auth-header p {
+    color: var(--dark-gray);
+    margin: 0;
+}
+
+.auth-form .form-group {
+    margin-bottom: 25px;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    color: var(--primary-blue);
+    z-index: 2;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+}
+
+.checkbox-label input {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #dee2e6;
+    border-radius: 3px;
+    margin-right: 8px;
+    position: relative;
+    transition: var(--transition);
+}
+
+.checkbox-label input:checked + .checkmark {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+.checkbox-label input:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn-auth {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px solid #e9ecef;
+}
+
+.auth-footer p {
+    color: var(--dark-gray);
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+.auth-info {
+    color: white;
+    padding: 20px;
+}
+
+.auth-info h3 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.auth-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0;
+}
+
+.auth-info li {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.auth-info li i {
+    width: 20px;
+    text-align: center;
+}
+
+.security-notice {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.security-notice i {
+    font-size: 1.5rem;
+}
+
+.debug-links {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.debug-links h4 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.debug-links a {
+    color: #a8d2ff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.debug-links a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 992px) {
+    .auth-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .auth-info {
+        order: -1;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 25px;
+    }
+}
+</style>
+{% endblock %}

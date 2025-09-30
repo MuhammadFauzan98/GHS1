@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Global High School - Adilabad{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <img src="https://scontent.fhyd11-3.fna.fbcdn.net/v/t39.30808-6/319896007_646792773847965_2692287642155632377_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=cmGWFcH-32AQ7kNvwFkmQGS&_nc_oc=AdlQn98SV9oaCwVQZcoT_-xZ7nShNuJVRqlGga2sb8yRXEwwaAAvXZf3u3rb5yu7PZnH_06NgRVm58fpCTZjTY0D&_nc_zt=23&_nc_ht=scontent.fhyd11-3.fna&_nc_gid=42rZKVuvWHj_orMSAP4yFQ&oh=00_AfaJt5qGtiASJX4ONhGclJARvskMoN0VmZodlKTnnrndqw&oe=68E16D2D" alt="Global High School Logo" class="logo-image">
+                    </div>
+                    <div class="logo-text">
+                        <h1><a href="{{ url_for('index') }}">Global High School</a></h1>
+                        <p>Telangana Board</p>
+                    </div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}class="active"{% endif %}>Home</a></li>
+                    <li><a href="{{ url_for('about') }}" {% if request.endpoint == 'about' %}class="active"{% endif %}>About</a></li>
+                    <li><a href="{{ url_for('faculty') }}" {% if request.endpoint == 'faculty' %}class="active"{% endif %}>Faculty</a></li>
+                    <li><a href="{{ url_for('pyqp') }}" {% if request.endpoint == 'pyqp' %}class="active"{% endif %}>PYQP</a></li>
+                    <li><a href="{{ url_for('contact') }}" {% if request.endpoint == 'contact' %}class="active"{% endif %}>Contact</a></li>
+                    
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-toggle">
+                            <i class="fas fa-user-circle"></i> {{ current_user.name }}
+                        </a>
+                        <ul class="nav-dropdown-menu">
+                            <li><a href="{{ url_for('faculty_dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                            <li><a href="{{ url_for('faculty_upload_pyqp') }}"><i class="fas fa-file-pdf"></i> Upload PYQP</a></li>
+                            <li><a href="{{ url_for('faculty_profile') }}"><i class="fas fa-user"></i> Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a href="{{ url_for('faculty_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li><a href="{{ url_for('faculty_login') }}" class="login-link"><i class="fas fa-sign-in-alt"></i> Faculty Login</a></li>
+                    {% endif %}
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                        <span class="close-btn">&times;</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <img src="https://scontent.fhyd11-3.fna.fbcdn.net/v/t39.30808-6/319896007_646792773847965_2692287642155632377_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=cmGWFcH-32AQ7kNvwFkmQGS&_nc_oc=AdlQn98SV9oaCwVQZcoT_-xZ7nShNuJVRqlGga2sb8yRXEwwaAAvXZf3u3rb5yu7PZnH_06NgRVm58fpCTZjTY0D&_nc_zt=23&_nc_ht=scontent.fhyd11-3.fna&_nc_gid=42rZKVuvWHj_orMSAP4yFQ&oh=00_AfaJt5qGtiASJX4ONhGclJARvskMoN0VmZodlKTnnrndqw&oe=68E16D2D" alt="Global High School Logo" class="logo-image">
+                        </div>
+                        <div class="logo-text">
+                            <h3>Global High School</h3>
+                            <p>Telangana Board</p>
+                        </div>
+                    </div>
+                    <p class="vision-quote">"Creating global leaders, our vision is tarbiyat and taleem"</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="{{ url_for('about') }}">About Us</a></li>
+                        <li><a href="{{ url_for('faculty') }}">Faculty</a></li>
+                        <li><a href="{{ url_for('pyqp') }}">PYQP</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Academics</h4>
+                    <ul>
+                        <li><a href="#">Admissions</a></li>
+                        <li><a href="#">Curriculum</a></li>
+                        <li><a href="#">Examination</a></li>
+                        <li><a href="#">Results</a></li>
+                        <li><a href="#">Scholarships</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> Bus Stand Downall, Bhuktapur, Adilabad</p>
+                        <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                        <p><i class="fas fa-envelope"></i> info@globalhighschool.edu.in</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Global High School. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

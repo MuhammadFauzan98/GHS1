@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1>Welcome to Global High School</h1>
+        <p class="vision-quote">"Creating global leaders, our vision is tarbiyat and taleem"</p>
+        <p>Excellence in Education Since 1995</p>
+        <p>Affiliated to Telangana State Board of Secondary Education</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('about') }}" class="btn btn-primary">Learn More</a>
+            <a href="{{ url_for('contact') }}" class="btn btn-secondary">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about">
+    <div class="container">
+        <h2 class="section-title">About Our School</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Global High School, established in 1995, is a premier educational institution committed to providing quality education to students in Telangana. Our mission is to nurture young minds and prepare them for the challenges of the future.</p>
+                <p>We follow the Telangana State Board curriculum and focus on holistic development through academics, sports, and extracurricular activities.</p>
+                <div class="achievements">
+                    <div class="achievement">
+                        <h3>25+</h3>
+                        <p>Years of Excellence</p>
+                    </div>
+                    <div class="achievement">
+                        <h3>1000+</h3>
+                        <p>Successful Alumni</p>
+                    </div>
+                    <div class="achievement">
+                        <h3>30+</h3>
+                        <p>Qualified Faculty</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="School Building">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">School Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-book-open"></i>
+                <h3>Digital Library</h3>
+                <p>Access to thousands of e-books and online resources for enhanced learning.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-laptop"></i>
+                <h3>Smart Classes</h3>
+                <p>Technology-enabled classrooms for interactive and engaging learning experiences.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-flask"></i>
+                <h3>Science Labs</h3>
+                <p>Well-equipped laboratories for Physics, Chemistry, and Biology with modern apparatus.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-futbol"></i>
+                <h3>Sports Complex</h3>
+                <p>Indoor and outdoor sports facilities including basketball, cricket, and athletics.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Section -->
+<section class="gallery">
+    <div class="container">
+        <h2 class="section-title">Campus Life</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://scontent.fhyd11-2.fna.fbcdn.net/v/t39.30808-6/521678211_752778244365928_4681884411261381088_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=wrbzbhds7uAQ7kNvwEhQkyR&_nc_oc=Adk1Rpaw6t9bBFb_DowHxvC1nSxv2r1s6P6LI10EOF9jZ6mpbunFnmDwiXG54hoCGARrVLZC1rvna5WxcFtDVVF-&_nc_zt=23&_nc_ht=scontent.fhyd11-2.fna&_nc_gid=xHbdnS8CfnbtK4ExR5grLw&oh=00_Afao4quSJyZ2WbkCj9A1pRw-IVe-a4RvVRxdb8w-tOhI-w&oe=68E188F9" alt="Campus Life 1"></div>
+            <div class="gallery-item"><img src="https://scontent.fhyd14-4.fna.fbcdn.net/v/t39.30808-6/523321254_752778237699262_4728774733774020325_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=yEHAQlihHLwQ7kNvwFHiBjj&_nc_oc=AdkaKK5w_6FlE3EhbrlJmJ8nUUNeLo22GVk3cs_cHUW2VLAXQZbeqjzq-Sn-lg9-5K9f8iYN9_vAw8UyxbHxPA79&_nc_zt=23&_nc_ht=scontent.fhyd14-4.fna&_nc_gid=z5_A5-UNb0sFD87GSSHKSw&oh=00_AfZjD-oBoPqJrKWrrzqvBBSll0xR3dCjMO88uCAyORivTQ&oe=68E18568" alt="Campus Life 2"></div>
+            <div class="gallery-item"><img src="https://scontent.fhyd14-1.fna.fbcdn.net/v/t39.30808-6/475158568_610595048584249_124857376206542779_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=NUfXBZInsUMQ7kNvwH4Ozuu&_nc_oc=AdkhU2v21HLmn0sxO7sAqooRgkEgqAOFl1duSXPr9D2tKAoSwDo-BcHFG4efJKRKH0ducc8raU57Sg1JQhJ7pnlu&_nc_zt=23&_nc_ht=scontent.fhyd14-1.fna&_nc_gid=IZg6oXR9fBIxVdaDn1_QkA&oh=00_AfYIHhSELUhsYlQrH5Xfq1VQ87444AU5BZQH4xm9B8tI2A&oe=68E18BA7" alt="Campus Life 3"></div>
+            <div class="gallery-item"><img src="https://scontent.fhyd14-2.fna.fbcdn.net/v/t39.30808-6/523526322_752778234365929_6587968693686554731_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=0tcehpm6LrAQ7kNvwHamymn&_nc_oc=Admc-eTi0-l0yqjQIAr7LPbXreKoz5fr0gblmURYicd_SEa0oppLEzuElEZTLWMTRVIETftpuIeQAABBkWKU6Z0f&_nc_zt=23&_nc_ht=scontent.fhyd14-2.fna&_nc_gid=2MH8wWREooSFkMnGQkJTzA&oh=00_AfbkI3mqWuZuEcCv4q8JRrHOM0Fe2dbTl4zJp_MCGENJHg&oe=68E186A0" alt="Campus Life 4"></div>
+            <div class="gallery-item"><img src="https://scontent.fhyd14-2.fna.fbcdn.net/v/t39.30808-6/474764096_610000238643730_8567244673553854486_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=4hnoCGleW_EQ7kNvwF9R7G_&_nc_oc=AdlsrvOYHs6uJRij4rDhF-T_QoS0qfAomU-R9vEAuWRJC6dkfkZeMMeo-khbSPOKT6sHt9wmSKYTdh8g2dVPePsx&_nc_zt=23&_nc_ht=scontent.fhyd14-2.fna&_nc_gid=1vmf_2iEuBG2pb6fbCVfnw&oh=00_AfZB_-etNRxCkt6ySEU1KATOYB6dNz_Qd2ZGPfnVfNc0Pw&oe=68E17F7A" alt="Campus Life 5"></div>
+            <div class="gallery-item"><img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrEGm2yZPUpl4ZgJOt_z9XwvkqQ6xDbvL9JwmAptuwqvwyQO2tE_mt37zJdmYIxCYx3oqrrqfbUL1sGnWVaNWnWAKwgRtC1OP3xVdDlUwDJ6SQkqmwF6KXeXzvyo5VkFvjHtx30IQ=s680-w680-h510-rw" alt="Campus Life 5"></div>
+            <div class="gallery-item"><img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqf3-rkEhMfwQnZBe40T2XU9irZuNqMbdFLjwVjeNTwVCWtBxqfGcgt9bdZiKE4TKIDKAYNKlPtoTsZOJYxOfO1Xyh-QoyrHGF84cIb3dSdv4gqMw7F_VxBsUk7TYViHytaFAVy-g=s680-w680-h510-rw" alt="Campus Life 5"></div>
+            <div class="gallery-item"><img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4npGdq_aW61x5Wgp1lgSR0-BA9Scc3szgOX4Lh56nsWcn7UhKr2VWg21Cq-7EIz7Ut0RG6VNEyUEfOuzatjxYzS5Hu_Izg2Xps5jMAdURvGmCaEMSzCw3jV0r6FiBNiA9Tn2g4AksA=s680-w680-h510-rw" alt="Campus Life 5"></div>
+            <div class="gallery-item"><img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nokZZ5LFYhXLnmLMUp-VDNpH_FKc1u8V2FlOm1-Xouw4Rtl4DcCrssKGLz77zGpJAMfqxvafgtI8YxwibKY2bcDsiOmuMHZHk54gRjbQeoVYgfPzWMLiUGKowdWgI4bhnVH-II0=s680-w680-h510-rw" alt="Campus Life 5"></div>
+
+
+
+        </div>
+    </div>
+</section>
+{% endblock %}

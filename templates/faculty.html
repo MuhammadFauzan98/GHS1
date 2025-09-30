@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}Our Faculty - Global High School{% endblock %}
+
+{% block content %}
+<section class="faculty">
+    <div class="container">
+        <h2 class="section-title">Our Faculty</h2>
+        <p class="section-subtitle">Meet our dedicated and experienced teaching staff who are committed to nurturing young minds</p>
+        
+        <div class="faculty-grid">
+            {% for faculty in faculty_members %}
+            <div class="faculty-card">
+                <div class="faculty-image">
+                    {% if faculty.image_path %}
+                        <img src="{{ faculty.image_path }}" alt="{{ faculty.name }}">
+                    {% endif %}
+                </div>
+                <div class="faculty-info">
+                    <h3>{{ faculty.name }}</h3>
+                    <p class="faculty-role">{{ faculty.role }}</p>
+                    <p class="faculty-qualification">{{ faculty.qualification }}</p>
+                    <p class="faculty-description">{{ faculty.description }}</p>
+                    {% if faculty.experience %}
+                    <p class="faculty-experience"><strong>Experience:</strong> {{ faculty.experience }}</p>
+                    {% endif %}
+                    {% if faculty.specialization %}
+                    <p class="faculty-specialization"><strong>Specialization:</strong> {{ faculty.specialization }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div class="no-faculty">
+                <p>Faculty information will be updated soon. Please check back later.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="faculty-stats">
+            <div class="stat-item">
+                <h3>30+</h3>
+                <p>Qualified Teachers</p>
+            </div>
+            <div class="stat-item">
+                <h3>15:1</h3>
+                <p>Student-Teacher Ratio</p>
+            </div>
+            <div class="stat-item">
+                <h3>80%</h3>
+                <p>Postgraduate Faculty</p>
+            </div>
+            <div class="stat-item">
+                <h3>10+</h3>
+                <p>Years Average Experience</p>
+            </div>
+        </div>
+        
+        <div class="teaching-philosophy">
+            <h3>Our Teaching Philosophy</h3>
+            <p>At Global High School, our faculty follows a student-centered approach that focuses on holistic development. We believe in creating an inclusive learning environment where every student can thrive academically, socially, and emotionally.</p>
+            <div class="philosophy-points">
+                <div class="point">
+                    <i class="fas fa-heart"></i>
+                    <h4>Nurturing Environment</h4>
+                    <p>We create a supportive atmosphere where students feel safe to explore and learn.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-lightbulb"></i>
+                    <h4>Innovative Methods</h4>
+                    <p>Our teachers employ modern teaching techniques to make learning engaging.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <h4>Individual Attention</h4>
+                    <p>We recognize each student's unique needs and provide personalized guidance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.no-faculty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.no-faculty p {
+    font-size: 1.3rem;
+    color: var(--dark-gray);
+    margin-bottom: 0;
+}
+
+.faculty-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin: 60px 0;
+}
+
+.stat-item {
+    background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+    color: var(--white);
+    padding: 30px 20px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.stat-item h3 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.stat-item p {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+    opacity: 0.9;
+}
+
+.teaching-philosophy {
+    background: var(--white);
+    padding: 50px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-top: 50px;
+}
+
+.teaching-philosophy h3 {
+    color: var(--dark-blue);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+.teaching-philosophy > p {
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    color: var(--dark-gray);
+}
+
+.philosophy-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.point {
+    text-align: center;
+    padding: 25px;
+    background: var(--light-gray);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.point:hover {
+    background: var(--light-blue);
+    transform: translateY(-5px);
+}
+
+.point i {
+    font-size: 3rem;
+    color: var(--primary-blue);
+    margin-bottom: 20px;
+    display: block;
+}
+
+.point h4 {
+    color: var(--dark-blue);
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.point p {
+    color: var(--dark-gray);
+    line-height: 1.7;
+}
+
+.faculty-experience, .faculty-specialization {
+    background: var(--light-gray);
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin: 8px 0;
+    font-size: 0.9rem;
+    border-left: 3px solid var(--primary-blue);
+}
+
+@media (max-width: 768px) {
+    .faculty-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .teaching-philosophy {
+        padding: 30px;
+    }
+    
+    .philosophy-points {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .faculty-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-item h3 {
+        font-size: 2.5rem;
+    }
+}
+</style>
+{% endblock %}

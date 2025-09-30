@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="pyqp">
+    <div class="container">
+        <h2 class="section-title">Previous Year Question Papers</h2>
+        <p class="section-subtitle">Resources for Class 10 Students</p>
+        
+        <!-- Upload Button for Faculty -->
+        {% if current_user.is_authenticated %}
+        <div class="upload-section">
+            <a href="{{ url_for('faculty_upload_pyqp') }}" class="btn btn-primary">
+                <i class="fas fa-cloud-upload-alt"></i> Upload New PYQP
+            </a>
+        </div>
+        {% endif %}
+        
+        <div class="pyqp-content">
+            <div class="pyqp-info">
+                <h3>Prepare with Confidence</h3>
+                <p>Access previous year question papers for Class 10 Telangana Board examinations. These resources will help you understand the exam pattern and prepare effectively.</p>
+                <div class="pyqp-features">
+                    <div class="feature">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Downloadable PDFs</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>2015-2023 Papers</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Official Solutions</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pyqp-downloads">
+                <h3>Available Papers</h3>
+                <div class="subject-list">
+                    {% for subject, papers in subjects.items() %}
+                    <div class="subject">
+                        <h4>{{ subject }}</h4>
+                        <div class="year-links">
+                            {% for paper in papers|sort(attribute='year', reverse=true) %}
+                            <a href="{{ url_for('download_pyqp', paper_id=paper.id) }}" 
+                               class="pdf-link"
+                               data-subject="{{ paper.subject }}"
+                               data-year="{{ paper.year }}"
+                               onclick="trackDownload('{{ paper.subject }}', '{{ paper.year }}')">
+                                <i class="fas fa-download"></i> {{ paper.year }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="no-papers">
+                        <i class="fas fa-file-pdf"></i>
+                        <p>No question papers available yet. Check back soon!</p>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('faculty_upload_pyqp') }}" class="btn btn-primary">
+                            Upload First PYQP
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function trackDownload(subject, year) {
+    console.log(`Downloading: ${subject} ${year}`);
+    // You can add analytics tracking here
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Add loading state to download links
+    const downloadLinks = document.querySelectorAll('.pdf-link');
+    downloadLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const originalHTML = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
+            
+            // Reset after 3 seconds (fallback)
+            setTimeout(() => {
+                this.innerHTML = originalHTML;
+            }, 3000);
+        });
+    });
+});
+</script>
+
+<style>
+.pdf-viewer-container {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.no-papers {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--light-gray);
+    border-radius: var(--border-radius);
+    grid-column: 1 / -1;
+}
+
+.no-papers i {
+    font-size: 4rem;
+    color: var(--medium-gray);
+    margin-bottom: 20px;
+}
+
+.no-papers p {
+    font-size: 1.2rem;
+    color: var(--dark-gray);
+    margin-bottom: 20px;
+}
+</style>
+{% endblock %}

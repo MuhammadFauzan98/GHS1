@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Debug - Global High School</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1a73e8;
+            --light-blue: #e8f0fe;
+            --dark-blue: #0d47a1;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #495057;
+            --text-dark: #212529;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1, h2 {
+            color: var(--dark-blue);
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
+            font-weight: 600;
+        }
+        
+        .exists {
+            color: green;
+            font-weight: bold;
+        }
+        
+        .missing {
+            color: red;
+            font-weight: bold;
+        }
+        
+        ul {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: var(--light-gray);
+            border-radius: 4px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
+        a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            background: var(--dark-blue);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('faculty_dashboard') }}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+        
+        <h1>File Debug Information</h1>
+        
+        <h2>Configuration</h2>
+        <ul>
+            <li><strong>Upload Folder:</strong> {{ debug_info.upload_folder }}</li>
+            <li><strong>Static Folder:</strong> {{ debug_info.static_folder }}</li>
+        </ul>
+        
+        <h2>Photos ({{ debug_info.photos|length }})</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>File Path</th>
+                <th>Full Path</th>
+                <th>Exists</th>
+                <th>URL</th>
+            </tr>
+            {% for photo in debug_info.photos %}
+            <tr>
+                <td>{{ photo.id }}</td>
+                <td>{{ photo.title }}</td>
+                <td><code>{{ photo.file_path }}</code></td>
+                <td><code>{{ photo.full_path }}</code></td>
+                <td class="{{ 'exists' if photo.exists else 'missing' }}">
+                    {{ photo.exists }}
+                </td>
+                <td><a href="{{ photo.url }}" target="_blank">View</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <h2>PYQP ({{ debug_info.pyqps|length }})</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>Year</th>
+                <th>File Path</th>
+                <th>Full Path</th>
+                <th>Exists</th>
+                <th>URL</th>
+            </tr>
+            {% for pyqp in debug_info.pyqps %}
+            <tr>
+                <td>{{ pyqp.id }}</td>
+                <td>{{ pyqp.subject }}</td>
+                <td>{{ pyqp.year }}</td>
+                <td><code>{{ pyqp.file_path }}</code></td>
+                <td><code>{{ pyqp.full_path }}</code></td>
+                <td class="{{ 'exists' if pyqp.exists else 'missing' }}">
+                    {{ pyqp.exists }}
+                </td>
+                <td><a href="{{ pyqp.url }}" target="_blank">Download</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

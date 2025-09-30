@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - Global High School{% endblock %}
+
+{% block content %}
+<section class="about-page">
+    <div class="container">
+        <h2 class="section-title">About Global High School</h2>
+        
+        <div class="about-hero">
+            <div class="about-text">
+                <h3>Our Story</h3>
+                <p>Established in 1995, Global High School has been at the forefront of providing quality education in Telangana. For over 25 years, we have been committed to nurturing young minds and shaping future leaders.</p>
+                
+                <h3>Our Mission</h3>
+                <p>To provide a holistic education that combines academic excellence with character building, preparing students to face global challenges with confidence and competence.</p>
+                
+                <h3>Our Vision</h3>
+                <p class="vision-quote">"Creating global leaders, our vision is tarbiyat and taleem" - We believe in the harmonious development of knowledge and character.</p>
+            </div>
+            <div class="about-stats">
+                <div class="stat-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h4>1000+</h4>
+                    <p>Successful Alumni</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-graduate"></i>
+                    <h4>500+</h4>
+                    <p>Current Students</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h4>50+</h4>
+                    <p>Qualified Teachers</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-trophy"></i>
+                    <h4>100+</h4>
+                    <p>Awards Won</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="infrastructure">
+            <h3>Our Infrastructure</h3>
+            <div class="infra-grid">
+                <div class="infra-item">
+                    <i class="fas fa-building"></i>
+                    <h4>Modern Classrooms</h4>
+                    <p>Spacious, well-ventilated classrooms with smart board technology</p>
+                </div>
+                <div class="infra-item">
+                    <i class="fas fa-flask"></i>
+                    <h4>Science Laboratories</h4>
+                    <p>Fully equipped labs for Physics, Chemistry, and Biology</p>
+                </div>
+                <div class="infra-item">
+                    <i class="fas fa-desktop"></i>
+                    <h4>Computer Lab</h4>
+                    <p>State-of-the-art computer lab with internet connectivity</p>
+                </div>
+                <div class="infra-item">
+                    <i class="fas fa-book"></i>
+                    <h4>Library</h4>
+                    <p>Well-stocked library with vast collection of books</p>
+                </div>
+                <div class="infra-item">
+                    <i class="fas fa-running"></i>
+                    <h4>Sports Facilities</h4>
+                    <p>Basketball court, cricket ground, and indoor games</p>
+                </div>
+                <div class="infra-item">
+                    <i class="fas fa-bus"></i>
+                    <h4>Transport</h4>
+                    <p>Safe and reliable bus service across the city</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.about-page {
+    padding: 80px 0;
+}
+
+.about-hero {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 50px;
+    margin-bottom: 60px;
+}
+
+.about-text h3 {
+    color: var(--dark-blue);
+    margin: 30px 0 15px;
+    font-size: 1.5rem;
+}
+
+.about-text p {
+    line-height: 1.8;
+    color: var(--dark-gray);
+    margin-bottom: 20px;
+}
+
+.about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card i {
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+}
+
+.stat-card h4 {
+    font-size: 2rem;
+    color: var(--dark-blue);
+    margin: 0 0 5px;
+}
+
+.stat-card p {
+    margin: 0;
+    color: var(--dark-gray);
+    font-weight: 500;
+}
+
+.infrastructure {
+    background: white;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.infrastructure h3 {
+    text-align: center;
+    color: var(--dark-blue);
+    margin-bottom: 40px;
+    font-size: 2rem;
+}
+
+.infra-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.infra-item {
+    text-align: center;
+    padding: 25px;
+    background: var(--light-gray);
+    border-radius: 10px;
+    transition: var(--transition);
+}
+
+.infra-item:hover {
+    background: var(--light-blue);
+    transform: translateY(-3px);
+}
+
+.infra-item i {
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+}
+
+.infra-item h4 {
+    color: var(--dark-blue);
+    margin-bottom: 10px;
+}
+
+.infra-item p {
+    color: var(--dark-gray);
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (max-width: 992px) {
+    .about-hero {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-stats {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .stat-card {
+        flex: 1;
+        min-width: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .infra-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .infrastructure {
+        padding: 30px;
+    }
+}
+</style>
+{% endblock %}
