@@ -480,7 +480,7 @@ def init_db():
                         role="Principal",
                         qualification="Ph.D. in Education, M.Ed., B.Sc.",
                         description="Leading our institution with vision and dedication towards academic excellence.",
-                        image_path="https://scontent.fhyd11-2.fna.fbcdn.net/v/t39.30808-6/519085037_752778251032594_214901603916856522_n.jpg",
+                        image_path="https://scontent.fhyd11-2.fna.fbcdn.net/v/t39.30808-6/519085037_752778251032594_214901603916856522_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=XF7uQZu9Ql0Q7kNvwF2z4ba&_nc_oc=AdlYI4eLBodyh_S0TCjiJJY9pQ4Wy2j9InW_mgvcZB71koZL3hTYrvsCP0UlsZ6ceZR3gH4JL0IS_9GbpMUcW9K1&_nc_zt=23&_nc_ht=scontent.fhyd11-2.fna&_nc_gid=cT-7-gsOPP8k8HMNAHHzvQ&oh=00_AfZq4RHr16KYjhnPnOjzaKvY_fMQp2Zj8bzNSUsCVlAQvw&oe=68E16B95",
                         experience="25+ years",
                         specialization="Educational Leadership"
                     ),
