@@ -12,9 +12,7 @@
             {% for faculty in faculty_members %}
             <div class="faculty-card">
                 <div class="faculty-image">
-                    {% if faculty.image_path %}
-                        <img src="{{ faculty.image_path }}" alt="{{ faculty.name }}">
-                    {% endif %}
+                    <img src="{{ get_image_url(faculty.image_path) }}" alt="{{ faculty.name }}">
                 </div>
                 <div class="faculty-info">
                     <h3>{{ faculty.name }}</h3>

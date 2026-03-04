@@ -20,26 +20,19 @@
                     </div>
                 </div>
                 <ul class="nav-links">
+                    {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('faculty_dashboard') }}" {% if request.endpoint == 'faculty_dashboard' %}class="active"{% endif %}><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="{{ url_for('faculty_upload_pyqp') }}" {% if request.endpoint == 'faculty_upload_pyqp' %}class="active"{% endif %}><i class="fas fa-file-pdf"></i> Upload PYQP</a></li>
+                    <li><a href="{{ url_for('faculty_announcements') }}" {% if request.endpoint == 'faculty_announcements' %}class="active"{% endif %}><i class="fas fa-bullhorn"></i> Manage Announcements</a></li>
+                    <li><a href="{{ url_for('faculty_profile') }}" {% if request.endpoint == 'faculty_profile' %}class="active"{% endif %}><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="{{ url_for('faculty_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    {% else %}
                     <li><a href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}class="active"{% endif %}>Home</a></li>
                     <li><a href="{{ url_for('about') }}" {% if request.endpoint == 'about' %}class="active"{% endif %}>About</a></li>
                     <li><a href="{{ url_for('faculty') }}" {% if request.endpoint == 'faculty' %}class="active"{% endif %}>Faculty</a></li>
                     <li><a href="{{ url_for('pyqp') }}" {% if request.endpoint == 'pyqp' %}class="active"{% endif %}>PYQP</a></li>
+                    <li><a href="{{ url_for('announcements') }}" {% if request.endpoint == 'announcements' %}class="active"{% endif %}>Announcements</a></li>
                     <li><a href="{{ url_for('contact') }}" {% if request.endpoint == 'contact' %}class="active"{% endif %}>Contact</a></li>
-                    
-                    {% if current_user.is_authenticated %}
-                    <li class="nav-dropdown">
-                        <a href="#" class="nav-dropdown-toggle">
-                            <i class="fas fa-user-circle"></i> {{ current_user.name }}
-                        </a>
-                        <ul class="nav-dropdown-menu">
-                            <li><a href="{{ url_for('faculty_dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                            <li><a href="{{ url_for('faculty_upload_pyqp') }}"><i class="fas fa-file-pdf"></i> Upload PYQP</a></li>
-                            <li><a href="{{ url_for('faculty_profile') }}"><i class="fas fa-user"></i> Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a href="{{ url_for('faculty_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                        </ul>
-                    </li>
-                    {% else %}
                     <li><a href="{{ url_for('faculty_login') }}" class="login-link"><i class="fas fa-sign-in-alt"></i> Faculty Login</a></li>
                     {% endif %}
                 </ul>
@@ -50,8 +43,6 @@
                 </div>
             </div>
         </nav>
-    </header>
-
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -100,6 +91,7 @@
                         <li><a href="{{ url_for('about') }}">About Us</a></li>
                         <li><a href="{{ url_for('faculty') }}">Faculty</a></li>
                         <li><a href="{{ url_for('pyqp') }}">PYQP</a></li>
+                        <li><a href="{{ url_for('announcements') }}">Announcements</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">

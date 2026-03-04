@@ -1,5 +1,32 @@
 // Enhanced JavaScript for better interactivity
 document.addEventListener('DOMContentLoaded', function() {
+    const defaultImageFallback = '/static/images/image-placeholder.svg';
+
+    const applyImageFallback = (imageElement) => {
+        imageElement.addEventListener('error', function handleImageError() {
+            if (imageElement.dataset.fallbackApplied === 'true') {
+                return;
+            }
+
+            imageElement.dataset.fallbackApplied = 'true';
+            imageElement.src = defaultImageFallback;
+        });
+
+        if (!imageElement.getAttribute('src') || !imageElement.getAttribute('src').trim()) {
+            imageElement.dataset.fallbackApplied = 'true';
+            imageElement.src = defaultImageFallback;
+        }
+    };
+
+    const allImages = document.querySelectorAll('img');
+    allImages.forEach((imageElement) => {
+        if (!imageElement.hasAttribute('loading')) {
+            imageElement.loading = 'lazy';
+        }
+        imageElement.referrerPolicy = 'no-referrer';
+        applyImageFallback(imageElement);
+    });
+
     // Mobile Navigation
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');

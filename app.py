@@ -107,6 +107,16 @@ class ContactMessage(db.Model):
     replied_at = db.Column(db.DateTime)
     reply_message = db.Column(db.Text)
 
+class Announcement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    created_by = db.Column(db.Integer, db.ForeignKey('faculty.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    is_active = db.Column(db.Boolean, default=True)
+
+    creator = db.relationship('Faculty', backref='announcements')
+
 class ActivityLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     faculty_id = db.Column(db.Integer, db.ForeignKey('faculty.id'), nullable=False)
@@ -143,6 +153,48 @@ def log_activity(faculty_id, action, details=None, ip_address=None, user_agent=N
         print(f"Error logging activity: {e}")
         db.session.rollback()
 
+def get_image_url(image_path):
+    placeholder = url_for('static', filename='images/image-placeholder.svg')
+
+    if not image_path:
+        return placeholder
+
+    try:
+        normalized_path = str(image_path).replace('\\', '/').strip()
+
+        if normalized_path.startswith(('http://', 'https://', 'data:')):
+            return normalized_path
+
+        if normalized_path.startswith('/uploads/'):
+            normalized_path = normalized_path[len('/uploads/'):]
+        elif normalized_path.startswith('uploads/'):
+            normalized_path = normalized_path[len('uploads/'):]
+
+        if normalized_path.startswith('/static/'):
+            normalized_path = normalized_path[len('/static/'):]
+        elif normalized_path.startswith('static/'):
+            normalized_path = normalized_path[len('static/'):]
+
+        uploads_dir = app.config.get('UPLOAD_FOLDER', '')
+        if uploads_dir:
+            upload_candidate = os.path.join(uploads_dir, normalized_path)
+            if os.path.isfile(upload_candidate):
+                return url_for('serve_uploaded_file', filename=normalized_path)
+
+        static_candidate = os.path.join(app.static_folder, normalized_path)
+        if os.path.isfile(static_candidate):
+            return url_for('static', filename=normalized_path)
+
+        return placeholder
+    except Exception:
+        return placeholder
+
+@app.context_processor
+def inject_template_helpers():
+    return {
+        'get_image_url': get_image_url
+    }
+
 # =====================
 # PUBLIC ROUTES
 # =====================
@@ -164,7 +216,16 @@ def about():
 
 @app.route('/faculty')
 def faculty():
-    faculty_members = FacultyMember.query.all()
+    faculty_members = FacultyMember.query.filter(
+        FacultyMember.name.isnot(None),
+        FacultyMember.role.isnot(None),
+        FacultyMember.qualification.isnot(None),
+        FacultyMember.description.isnot(None),
+        FacultyMember.name != '',
+        FacultyMember.role != '',
+        FacultyMember.qualification != '',
+        FacultyMember.description != ''
+    ).all()
     return render_template('faculty.html', faculty_members=faculty_members)
 
 @app.route('/pyqp')
@@ -197,13 +258,18 @@ def contact():
             db.session.add(new_message)
             db.session.commit()
             flash('Your message has been sent successfully!', 'success')
-        except Exception as e:
+        except Exception:
             db.session.rollback()
             flash('There was an error sending your message. Please try again.', 'error')
         
         return redirect(url_for('contact'))
     
     return render_template('contact.html')
+
+@app.route('/announcements')
+def announcements():
+    active_announcements = Announcement.query.filter_by(is_active=True).order_by(Announcement.created_at.desc()).all()
+    return render_template('announcements.html', announcements=active_announcements)
 
 # =====================
 # AUTHENTICATION ROUTES
@@ -271,7 +337,7 @@ def faculty_dashboard():
                              pyqp_count=pyqp_count,
                              recent_pyqps=recent_pyqps,
                              recent_activities=recent_activities)
-    except Exception as e:
+    except Exception:
         flash('Error loading dashboard. Please try again.', 'error')
         return redirect(url_for('index'))
 
@@ -330,7 +396,7 @@ def faculty_upload_pyqp():
                 flash('PYQP uploaded successfully!', 'success')
                 return redirect(url_for('faculty_upload_pyqp'))
                 
-            except Exception as e:
+            except Exception:
                 db.session.rollback()
                 flash('Error uploading file. Please try again.', 'error')
                 return redirect(request.url)
@@ -340,7 +406,7 @@ def faculty_upload_pyqp():
     try:
         total_pyqp = PYQP.query.count()
         recent_pyqps = PYQP.query.filter_by(uploaded_by=current_user.id).order_by(PYQP.uploaded_at.desc()).limit(10).all()
-    except Exception as e:
+    except Exception:
         total_pyqp = 0
         recent_pyqps = []
     
@@ -354,7 +420,7 @@ def faculty_upload_pyqp():
 def faculty_profile():
     try:
         activities = ActivityLog.query.filter_by(faculty_id=current_user.id).order_by(ActivityLog.created_at.desc()).limit(20).all()
-    except Exception as e:
+    except Exception:
         activities = []
     
     if request.method == 'POST':
@@ -383,13 +449,53 @@ def faculty_profile():
             )
             
             flash('Profile updated successfully!', 'success')
-        except Exception as e:
+        except Exception:
             db.session.rollback()
             flash('Error updating profile. Please try again.', 'error')
         
         return redirect(url_for('faculty_profile'))
     
     return render_template('auth/faculty_profile.html', activities=activities)
+
+@app.route('/faculty/announcements', methods=['GET', 'POST'])
+@login_required
+def faculty_announcements():
+    if request.method == 'POST':
+        title = request.form.get('title', '').strip()
+        message = request.form.get('message', '').strip()
+
+        if not title or not message:
+            flash('Title and announcement message are required.', 'error')
+            return redirect(url_for('faculty_announcements'))
+
+        new_announcement = Announcement(
+            title=title,
+            message=message,
+            created_by=current_user.id,
+            is_active=True
+        )
+
+        try:
+            db.session.add(new_announcement)
+            db.session.commit()
+
+            log_activity(
+                current_user.id,
+                'create_announcement',
+                f'Created announcement: {title}',
+                request.remote_addr,
+                request.headers.get('User-Agent')
+            )
+
+            flash('Announcement posted successfully.', 'success')
+            return redirect(url_for('faculty_announcements'))
+        except Exception:
+            db.session.rollback()
+            flash('Error posting announcement. Please try again.', 'error')
+            return redirect(url_for('faculty_announcements'))
+
+    posted_announcements = Announcement.query.order_by(Announcement.created_at.desc()).all()
+    return render_template('auth/faculty_announcements.html', announcements=posted_announcements)
 
 # =====================
 # FILE SERVING ROUTES
@@ -412,7 +518,7 @@ def serve_uploaded_file(filename):
             return "Not a file", 400
             
         return send_from_directory(uploads_dir, filename)
-    except Exception as e:
+    except Exception:
         return redirect('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80')
 
 @app.route('/download_pyqp/<int:paper_id>')
@@ -434,7 +540,7 @@ def download_pyqp(paper_id):
             as_attachment=True,
             download_name=f"{paper.subject}_{paper.year}.pdf"
         )
-    except Exception as e:
+    except Exception:
         flash('Error downloading file. Please try again.', 'error')
         return redirect(url_for('pyqp'))
 
@@ -496,6 +602,25 @@ def init_db():
                 ]
                 db.session.add_all(sample_faculty)
                 db.session.commit()
+
+            # Sample announcements
+            if Announcement.query.count() == 0:
+                announcer = Faculty.query.filter_by(username='admin').first() or Faculty.query.first()
+                if announcer:
+                    default_announcements = [
+                        Announcement(
+                            title='Welcome to the Academic Portal',
+                            message='Students and parents can now check latest updates, notices, and events from this announcements page.',
+                            created_by=announcer.id
+                        ),
+                        Announcement(
+                            title='New PYQP Uploads Available',
+                            message='Faculty have uploaded updated previous year question papers. Visit the PYQP section for details.',
+                            created_by=announcer.id
+                        )
+                    ]
+                    db.session.add_all(default_announcements)
+                    db.session.commit()
                 
             print("Database initialized successfully!")
             
